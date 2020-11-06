@@ -25,6 +25,11 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @GetMapping("hello")
+    public String sayHello(){
+        return "Hello MYOUR forum API";
+    }
+
     //TEST API.
     @GetMapping("post/homepage")
     public Collection<Post> getAllPost() {
