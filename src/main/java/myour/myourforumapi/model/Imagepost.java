@@ -11,7 +11,7 @@ import javax.persistence.Id;
 public class Imagepost {
     private int id;
     private int postId;
-    private String url;
+    private String filePath;
 
     @Id
     @Column(name = "id")
@@ -35,12 +35,12 @@ public class Imagepost {
 
     @Basic
     @Column(name = "url")
-    public String getUrl() {
-        return url;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFilePath(String url) {
+        this.filePath = url;
     }
 
     @Override
@@ -50,11 +50,11 @@ public class Imagepost {
         Imagepost imagepost = (Imagepost) o;
         return id == imagepost.id &&
                 postId == imagepost.postId &&
-                Objects.equals(url, imagepost.url);
+                Objects.equals(filePath, imagepost.filePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, postId, url);
+        return Objects.hash(id, postId, filePath);
     }
 }

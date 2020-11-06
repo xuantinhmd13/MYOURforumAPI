@@ -16,7 +16,7 @@ public class User {
     private String phoneNumber;
     private String email;
     private String description;
-    private Timestamp createTime;
+    private String createTime;
     private String updateTime;
     private boolean adminRole;
     private String avatarUrl;
@@ -83,11 +83,11 @@ public class User {
 
     @Basic
     @Column(name = "createTime")
-    public Timestamp getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
