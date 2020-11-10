@@ -1,20 +1,13 @@
 package myour.myourforumapi;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.FileSystemResource;
-
-import javax.servlet.ServletContext;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class MyourforumapiApplication {
-
-    @Autowired
-    static ServletContext context;
+public class MyourforumapiApplication implements WebMvcConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(MyourforumapiApplication.class, args);
     }
-
 }
