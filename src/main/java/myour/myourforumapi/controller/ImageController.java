@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -30,7 +31,7 @@ public class ImageController {
                 return image.getOriginalFilename();
             } catch (IOException e) {
                 e.printStackTrace();
-                return "NULL";
+                return null;
             }
         }
     }
@@ -38,13 +39,7 @@ public class ImageController {
     //download image.
     @GetMapping("/image/{fileName:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> downloadImage(@PathVariable String fileName) {
-        Resource resource = null;
-        try {
-            resource = imageService.loadAsResource(fileName);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok().body(resource);
+    public ResponseEntity<Resource> downloadImage(@PathVariable String fileName) throws IOException {
+        return ResponseEntity.ok().body(imageService.loadAsResource(fileName));
     }
 }

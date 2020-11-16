@@ -1,12 +1,13 @@
 package myour.myourforumapi.service;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +22,7 @@ public class ImageService {
         Files.write(path, imageFile.getBytes());
     }
 
-    public Resource loadAsResource(String fileName) throws MalformedURLException {
+    public Resource loadAsResource(String fileName) throws IOException {
         Path imageFilePath = Paths.get(IMAGE_UPLOAD_DIR + "/" + fileName);
         return new UrlResource(imageFilePath.toUri());
     }

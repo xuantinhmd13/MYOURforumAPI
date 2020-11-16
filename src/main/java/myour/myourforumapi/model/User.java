@@ -19,7 +19,6 @@ public class User {
     private String createTime;
     private String updateTime;
     private boolean adminRole;
-    private String avatarUrl;
 
     @Id
     @Column(name = "id")
@@ -111,16 +110,6 @@ public class User {
         this.adminRole = adminRole;
     }
 
-    @Basic
-    @Column(name = "avatarUrl")
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -134,12 +123,11 @@ public class User {
                 Objects.equals(email, user.email) &&
                 Objects.equals(description, user.description) &&
                 Objects.equals(createTime, user.createTime) &&
-                Objects.equals(updateTime, user.updateTime) &&
-                Objects.equals(avatarUrl, user.avatarUrl);
+                Objects.equals(updateTime, user.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, passWord, phoneNumber, email, description, createTime, updateTime, adminRole, avatarUrl);
+        return Objects.hash(id, userName, passWord, phoneNumber, email, description, createTime, updateTime, adminRole);
     }
 }
