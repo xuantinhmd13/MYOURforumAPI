@@ -1,11 +1,7 @@
 package myour.myourforumapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import myour.myourforumapi.model.User;
 import myour.myourforumapi.repository.UserRepository;
@@ -20,14 +16,14 @@ public class UserService {
         else return false;
     }
 
-    public boolean isUserNameExisted(String userName) {
-        if (userRepository.existsByUserName(userName)) return true;
+    public boolean isUsernameExisted(String userName) {
+        if (userRepository.existsByUsername(userName)) return true;
         else return false;
     }
 
     public String registerUser(User newUser) {
         if (isEmailExisted(newUser.getEmail())) return "email";
-        if (isUserNameExisted(newUser.getUserName())) return "username";
+        if (isUsernameExisted(newUser.getUsername())) return "username";
         userRepository.save(newUser);
         if (userRepository.existsByEmail(newUser.getEmail())) return "OK";
         else return "FAIL";

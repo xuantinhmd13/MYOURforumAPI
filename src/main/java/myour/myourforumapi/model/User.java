@@ -1,6 +1,5 @@
 package myour.myourforumapi.model;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 import javax.persistence.Basic;
@@ -11,8 +10,8 @@ import javax.persistence.Id;
 @Entity
 public class User {
     private int id;
-    private String userName;
-    private String passWord;
+    private String username;
+    private String password;
     private String phoneNumber;
     private String email;
     private String description;
@@ -32,22 +31,22 @@ public class User {
 
     @Basic
     @Column(name = "userName")
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     @Basic
     @Column(name = "passWord")
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String passWord) {
+        this.password = passWord;
     }
 
     @Basic
@@ -117,8 +116,8 @@ public class User {
         User user = (User) o;
         return id == user.id &&
                 adminRole == user.adminRole &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(passWord, user.passWord) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(description, user.description) &&
@@ -128,6 +127,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, passWord, phoneNumber, email, description, createTime, updateTime, adminRole);
+        return Objects.hash(id, username, password, phoneNumber, email, description, createTime, updateTime, adminRole);
     }
 }
