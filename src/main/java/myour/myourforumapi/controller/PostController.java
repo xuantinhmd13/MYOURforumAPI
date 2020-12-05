@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,5 +48,10 @@ public class PostController {
         } else
             postList = postRepository.findByCategoryId(categoryId, pageable).getContent();
         return new ResponseEntity<>(postList, HttpStatus.OK);
+    }
+
+    @PutMapping("/posts/{id}/view-count")
+    public int increaseViewCount(int id){
+        return postService.increaseViewCount(id);
     }
 }

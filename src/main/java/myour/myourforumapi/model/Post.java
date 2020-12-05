@@ -1,5 +1,10 @@
 package myour.myourforumapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import org.springframework.data.jpa.repository.Query;
+
 import java.util.Objects;
 
 import javax.persistence.Basic;
@@ -8,9 +13,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Post {
+
     private int id;
     private String title;
     private String content;
@@ -22,9 +31,12 @@ public class Post {
     private String source;
     private int likeCount;
     private boolean edited;
+    private User userByUserId;
+    //none database.
+    private String authorUsername;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -132,6 +144,22 @@ public class Post {
 
     public void setEdited(boolean edited) {
         this.edited = edited;
+    }
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public User getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(User userByUserId) {
+        this.userByUserId = userByUserId;
+    }
+
+    @Transient
+    public String getAuthorUsername() {
+        return userByUserId.getUsername();
     }
 
     @Override

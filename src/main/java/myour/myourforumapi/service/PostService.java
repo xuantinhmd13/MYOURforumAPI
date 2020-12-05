@@ -15,4 +15,10 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    public int increaseViewCount(int id) {
+        Post post = postRepository.findById(id).get();
+        post.setViewCount(post.getViewCount() + 1);
+        return postRepository.save(post).getViewCount();
+    }
 }

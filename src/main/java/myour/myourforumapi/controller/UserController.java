@@ -22,11 +22,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/users/username/by-user-id")
-    public String getUsernameByUserId(@RequestParam int userId) {
-        return userRepository.findById(userId).get().getUsername();
-    }
-
     @GetMapping("/users")
     public ResponseEntity<?> getAllUser() {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
