@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 import myour.myourforumapi.model.Post;
@@ -20,5 +19,17 @@ public class PostService {
         Post post = postRepository.findById(id).get();
         post.setViewCount(post.getViewCount() + 1);
         return postRepository.save(post).getViewCount();
+    }
+
+    public List<Post> searchAll(String title, String content, Pageable pageable) {
+        return postRepository.findByTitleIgnoreCaseContainingOrContentIgnoreCaseContaining
+                (title, content, pageable)
+                .getContent();
+    }
+
+    public List<Post> searchByCategoryId(int categoryId, String title, String content, Pageable pageable) {
+        return postRepository.findByCategoryIdAndTitleIgnoreCaseContainingOrCategoryIdAndContentIgnoreCaseContaining
+                (categoryId, title, categoryId, content, pageable)
+                .getContent();
     }
 }

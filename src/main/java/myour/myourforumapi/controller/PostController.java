@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,13 +41,28 @@ public class PostController {
 
     //get post follow category.
     @GetMapping("/posts/by-category-id")
-    public ResponseEntity<?> getPostByCategoryId(@RequestParam int categoryId, @RequestParam int pageIdx, @RequestParam int size) {
+    public ResponseEntity<?> getPostByCategoryId(@RequestParam int categoryId, @RequestParam int pageIndexMain, @RequestParam int size) {
         List<Post> postList;
-        Pageable pageable = (Pageable) PageRequest.of(pageIdx, size, Sort.by("createTime").descending());
+        Pageable pageable = (Pageable) PageRequest.of(pageIndexMain, size, Sort.by("createTime").descending());
         if (categoryId == 0) {
             postList = postRepository.findAll(pageable).getContent();
         } else
             postList = postRepository.findByCategoryId(categoryId, pageable).getContent();
+        return new ResponseEntity<>(postList, HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/search")
+    public ResponseEntity<?> searchPost(@RequestParam String keyWord, @RequestParam int categoryId, @RequestParam int pageIndexSearch,
+                                        @RequestParam int size) {
+        String title = keyWord;
+        String content = keyWord;
+        List<Post> postList;
+        Pageable pageable = PageRequest.of(pageIndexSearch, size, Sort.by("createTime").descending());
+        if (categoryId == 0) {
+            postList = postService.searchAll(title, content, pageable);
+        } else {
+            postList = postService.searchByCategoryId(categoryId, title, content, pageable);
+        }
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }
 
@@ -64,6 +78,9 @@ public class PostController {
 
     @PutMapping("/posts/{id}")
     public int updatePost(@RequestBody Post postEdited) {
+        Post post = postRepository.findById(postEdited.getId()).get();
+        postEdited.setHasImage(post.isHasImage());
+        postEdited.setViewCount(post.getViewCount());
         return postRepository.save(postEdited).getId();
     }
 
