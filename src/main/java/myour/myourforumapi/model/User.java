@@ -5,6 +5,8 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -14,12 +16,13 @@ public class User {
     private String password;
     private String phoneNumber;
     private String email;
-    private String description;
     private String createTime;
     private String updateTime;
     private boolean adminRole;
+    private String description;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -70,16 +73,6 @@ public class User {
     }
 
     @Basic
-    @Column(name = "description")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
     @Column(name = "createTime")
     public String getCreateTime() {
         return createTime;
@@ -109,24 +102,13 @@ public class User {
         this.adminRole = adminRole;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                adminRole == user.adminRole &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(description, user.description) &&
-                Objects.equals(createTime, user.createTime) &&
-                Objects.equals(updateTime, user.updateTime);
+    @Basic
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, phoneNumber, email, description, createTime, updateTime, adminRole);
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,15 +1,11 @@
 package myour.myourforumapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,9 +24,7 @@ public class Post {
     private int userId;
     private int viewCount;
     private int categoryId;
-    private String source;
-    private int likeCount;
-    private boolean edited;
+    private boolean hasImage;
     private User userByUserId;
     //none database.
     private String authorUsername;
@@ -117,38 +111,18 @@ public class Post {
     }
 
     @Basic
-    @Column(name = "source")
-    public String getSource() {
-        return source;
+    @Column(name = "hasImage")
+    public boolean isHasImage() {
+        return hasImage;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    @Basic
-    @Column(name = "likeCount")
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    @Basic
-    @Column(name = "edited")
-    public boolean isEdited() {
-        return edited;
-    }
-
-    public void setEdited(boolean edited) {
-        this.edited = edited;
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
     }
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
     public User getUserByUserId() {
         return userByUserId;
     }
@@ -160,28 +134,5 @@ public class Post {
     @Transient
     public String getAuthorUsername() {
         return userByUserId.getUsername();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return id == post.id &&
-                userId == post.userId &&
-                viewCount == post.viewCount &&
-                categoryId == post.categoryId &&
-                likeCount == post.likeCount &&
-                edited == post.edited &&
-                Objects.equals(title, post.title) &&
-                Objects.equals(content, post.content) &&
-                Objects.equals(createTime, post.createTime) &&
-                Objects.equals(updateTime, post.updateTime) &&
-                Objects.equals(source, post.source);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, content, createTime, updateTime, userId, viewCount, categoryId, source, likeCount, edited);
     }
 }

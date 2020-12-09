@@ -7,13 +7,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import myour.myourforumapi.model.Post;
@@ -39,6 +39,7 @@ public class PostController {
         return new ResponseEntity<>(postRepository.findAll(), HttpStatus.OK);
     }
 
+    //get post follow category.
     @GetMapping("/posts/by-category-id")
     public ResponseEntity<?> getPostByCategoryId(@RequestParam int categoryId, @RequestParam int pageIdx, @RequestParam int size) {
         List<Post> postList;
@@ -51,7 +52,17 @@ public class PostController {
     }
 
     @PutMapping("/posts/{id}/view-count")
-    public int increaseViewCount(int id){
+    public int increaseViewCount(@RequestParam int id) {
         return postService.increaseViewCount(id);
+    }
+
+    @PostMapping("/posts")
+    public int addPost(@RequestBody Post newPost) {
+        return postRepository.save(newPost).getId();
+    }
+
+    @PutMapping("/posts/{id}")
+    public int updatePost(@RequestBody Post postEdited) {
+        return postRepository.save(postEdited).getId();
     }
 }
