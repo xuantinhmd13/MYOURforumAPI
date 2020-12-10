@@ -21,7 +21,7 @@ public class UserService {
         else return false;
     }
 
-    public String registerUser(User newUser) {
+    public String register(User newUser) {
         if (isEmailExisted(newUser.getEmail())) return "email";
         if (isUsernameExisted(newUser.getUsername())) return "username";
         userRepository.save(newUser);

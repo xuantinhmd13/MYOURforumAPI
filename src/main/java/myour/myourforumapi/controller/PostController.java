@@ -39,11 +39,10 @@ public class PostController {
         return new ResponseEntity<>(postRepository.findAll(), HttpStatus.OK);
     }
 
-    //get post follow category.
     @GetMapping("/posts/by-category-id")
     public ResponseEntity<?> getPostByCategoryId(@RequestParam int categoryId, @RequestParam int pageIndexMain, @RequestParam int size) {
         List<Post> postList;
-        Pageable pageable = (Pageable) PageRequest.of(pageIndexMain, size, Sort.by("createTime").descending());
+        Pageable pageable = PageRequest.of(pageIndexMain, size, Sort.by("createTime").descending());
         if (categoryId == 0) {
             postList = postRepository.findAll(pageable).getContent();
         } else
@@ -66,14 +65,14 @@ public class PostController {
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }
 
+    @GetMapping("/posts/{id}")
+    public Post getPostById(@RequestParam int id) {
+        return postRepository.findById(id).get();
+    }
+
     @PutMapping("/posts/{id}/view-count")
     public int increaseViewCount(@RequestParam int id) {
         return postService.increaseViewCount(id);
-    }
-
-    @PostMapping("/posts")
-    public int addPost(@RequestBody Post newPost) {
-        return postRepository.save(newPost).getId();
     }
 
     @PutMapping("/posts/{id}")
@@ -84,13 +83,13 @@ public class PostController {
         return postRepository.save(postEdited).getId();
     }
 
+    @PostMapping("/posts")
+    public int addPost(@RequestBody Post newPost) {
+        return postRepository.save(newPost).getId();
+    }
+
     @DeleteMapping("/posts/{id}")
     public void deletePost(@RequestParam int id) {
         postRepository.deleteById(id);
-    }
-
-    @GetMapping("/posts/{id}")
-    public Post getPostById(@RequestParam int id) {
-        return postRepository.findById(id).get();
     }
 }

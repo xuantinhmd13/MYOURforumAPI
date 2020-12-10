@@ -1,8 +1,6 @@
 package myour.myourforumapi.controller;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +26,15 @@ public class UserController {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/users/{id}")
+    public User getUserById(@RequestParam int id) {
+        return userRepository.findById(id).get();
+    }
+
     //REGISTER.
     @PostMapping("/users/register")
-    public String registerUser(@RequestBody User newUser) {
-        return userService.registerUser(newUser);
+    public String register(@RequestBody User newUser) {
+        return userService.register(newUser);
     }
 
     //LOGIN.
@@ -49,11 +52,6 @@ public class UserController {
         if (user == null || user.getId() == userEdit.getId()) {
             return new ResponseEntity<>(userRepository.save(userEdit), HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/users/{id}")
-    public User getUserById(@RequestParam int id) {
-        return userRepository.findById(id).get();
     }
 
     @PutMapping("/users/{id}/password")
